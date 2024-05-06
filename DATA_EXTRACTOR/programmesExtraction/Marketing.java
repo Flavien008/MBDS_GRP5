@@ -44,7 +44,7 @@ public class Marketing {
     public void initMarketingTables(Marketing arb) {
         arb.dropTableMarketing();
         arb.createTableMarketing();
-        arb.lectureMarketingDataFromCSV("/vagrant/MBDS_GRP5/DATA EXTRACTOR/dataSources/Marketing.csv");
+        arb.lectureMarketingDataFromCSV("/vagrant/MBDS_GRP5/DATA_EXTRACTOR/dataSources/Marketing.csv");
     }
 
     
