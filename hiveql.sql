@@ -35,3 +35,35 @@ TBLPROPERTIES (
 );
 
 
+CREATE EXTERNAL TABLE catalogue_ext ( 
+id STRING, 
+Marque STRING,
+Nom STRING,
+Puissance DOUBLE,
+Longueur STRING,
+NbPlaces INT,
+NbPortes INT,
+Couleur STRING,
+Occasion STRING,
+Prix DOUBLE )
+STORED BY 'com.mongodb.hadoop.hive.MongoStorageHandler'
+WITH SERDEPROPERTIES('mongo.columns.mapping'='{"id":"_id", "marque":"marque", "nom" : "nom", "puissance": "puissance", "longueur" : "longueur", "nbPlaces" : "nbPlaces", "nbPortes" : "nbPortes", "couleur" : "couleur", "occasion" : "occasion", "prix" : "prix"}')
+TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Catalogue');
+
+CREATE EXTERNAL TABLE immatriculation_ext ( 
+id STRING,
+Immatriculation STRING, 
+Marque STRING,
+Nom STRING,
+Puissance DOUBLE,
+Longueur STRING,
+NbPlaces INT,
+NbPortes INT,
+Couleur STRING,
+Occasion STRING,
+Prix DOUBLE )
+STORED BY 'com.mongodb.hadoop.hive.MongoStorageHandler'
+WITH SERDEPROPERTIES('mongo.columns.mapping'='{"id":"_id", "immatriculation":"immatriculation", "marque":"marque", "nom" : "nom", "puissance": "puissance", "longueur" : "longueur", "nbPlaces" : "nbPlaces", "nbPortes" : "nbPortes", "couleur" : "couleur", "occasion" : "occasion", "prix" : "prix"}')
+TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Immatriculation');
+
+
