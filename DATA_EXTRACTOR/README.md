@@ -211,7 +211,7 @@ hadoop fs -mkdir -p /user/vagrant/input
 hadoop fs -put $DATAHOME/CO2.csv /user/vagrant/input/CO2.csv
 ```
 
-- Lancez le script Spark pour nettoyer et transformer les données :
+- Lancez le script Spark pour nettoyer et transformer les données (Map Reduce) :
 ```bash
 spark-submit $HDFSHOME/clean_map_reduce_co2.py
 ```
