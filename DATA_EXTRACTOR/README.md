@@ -193,3 +193,43 @@ STORED BY 'com.mongodb.hadoop.hive.MongoStorageHandler'
 WITH SERDEPROPERTIES('mongo.columns.mapping'='{"id":"_id", "immatriculation":"immatriculation", "marque":"marque", "nom" : "nom", "puissance": "puissance", "longueur" : "longueur", "nbPlaces" : "nbPlaces", "nbPortes" : "nbPortes", "couleur" : "couleur", "occasion" : "occasion", "prix" : "prix"}')
 TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Immatriculation');
 ```
+
+## Source Hadoop Distributed File System (HDFS)
+
+### Importation des Données
+
+Pour notre projet, nous avons décidé de stocker le fichier CO2.csv dans HDFS. Pour l'importer, veuillez suivre les étapes ci-dessous : 
+
+- Définissez le chemin du répertoire HDFS :
+```bash
+export HDFSHOME=/vagrant/MBDS_GRP5/DATA_EXTRACTOR/hdfs
+```
+
+- Créez un répertoire "input" sur HDFS et transférez le fichier CO2.csv depuis le répertoire local vers HDFS :
+```bash
+hadoop fs -mkdir -p /user/vagrant/input
+hadoop fs -put $DATAHOME/CO2.csv /user/vagrant/input/CO2.csv
+```
+
+- Lancez le script Spark pour nettoyer et transformer les données :
+```bash
+spark-submit $HDFSHOME/clean_map_reduce_co2.py
+```
+
+### Création des Tables Externes sur Hive
+
+Pour démarrer et accéder à la console HIVE il faut suivre les mêmes instructions que pour la source Oracle NOSQL.
+
+- Script de création de la table `co2_ext` :
+```bash
+CREATE EXTERNAL TABLE IF NOT EXISTS co2_ext (
+    marque STRING,
+    malusBonus FLOAT,
+    rejetsCO2 FLOAT,
+    coutEnergie FLOAT
+)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE 
+LOCATION '/user/vagrant/output/clean_co2';
+```

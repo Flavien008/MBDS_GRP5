@@ -1,5 +1,7 @@
 beeline -u jdbc:hive2://localhost:10000 vagrant
 
+USE DEFAULT;
+
 CREATE EXTERNAL TABLE IF NOT EXISTS MARKETING_EXT (
 MARKETINGID INTEGER,
 AGE INTEGER,
@@ -66,4 +68,13 @@ STORED BY 'com.mongodb.hadoop.hive.MongoStorageHandler'
 WITH SERDEPROPERTIES('mongo.columns.mapping'='{"id":"_id", "immatriculation":"immatriculation", "marque":"marque", "nom" : "nom", "puissance": "puissance", "longueur" : "longueur", "nbPlaces" : "nbPlaces", "nbPortes" : "nbPortes", "couleur" : "couleur", "occasion" : "occasion", "prix" : "prix"}')
 TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Immatriculation');
 
-
+CREATE EXTERNAL TABLE IF NOT EXISTS co2_ext (
+    marque STRING,
+    malusBonus FLOAT,
+    rejetsCO2 FLOAT,
+    coutEnergie FLOAT
+)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE 
+LOCATION '/user/vagrant/output/clean_co2';
