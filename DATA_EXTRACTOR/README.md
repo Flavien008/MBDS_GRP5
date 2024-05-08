@@ -45,8 +45,6 @@ javac -g -cp "$KVHOME/lib/kvclient.jar:." "$MYTPHOME/Clients.java"
 java -cp "$KVHOME/lib/kvclient.jar:$MYTPHOME" Clients
 ```
 
-````
-
 Nous allons à présent créer les tables externes sur HIVE pour accéder aux données.
 
 ### Création des Tables Externes sur HIVE
@@ -55,7 +53,7 @@ Pour démarrer, vous devez lancer le serveur HIVE en exécutant les commandes su
 
 ```bash
 start-dfs.sh
-````
+```
 
 ```bash
 start-yarn.sh
