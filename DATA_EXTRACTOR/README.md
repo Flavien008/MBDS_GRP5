@@ -16,6 +16,9 @@ vagrant ssh
 
 ```bash
 export MYTPHOME=/vagrant/MBDS_GRP5/DATA_EXTRACTOR/programmesExtraction/
+```
+
+```bash
 export DATAHOME=/vagrant/MBDS_GRP5/DATA_EXTRACTOR/dataSources
 ```
 
