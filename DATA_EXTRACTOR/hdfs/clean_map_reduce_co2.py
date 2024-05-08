@@ -24,7 +24,7 @@ def corriger_marque(ligne):
     marque = ligne[1].split(' ')[0]  # Utiliser le premier mot de la marque
     if marque == 'LAND':
         marque = 'LAND ROVER'
-    elif marque in ['"KIA"', '"VOLKSWAGEN', '"KIA']:
+    elif marque in ['"VOLKSWAGEN', '"KIA']:
         marque = marque.replace('"', '')  # Enlever les guillemets
     return [ligne[0], marque, ligne[2], ligne[3], ligne[4]]
 
