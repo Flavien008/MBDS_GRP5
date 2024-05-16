@@ -1,0 +1,26 @@
+{
+    "id": "E9931AEF",
+    "path": "E:/vagrant-projects/MBDS_GRP5/AnalyseR/1-DataExploration.R",
+    "project_path": "1-DataExploration.R",
+    "type": "r_source",
+    "hash": "3599004672",
+    "contents": "",
+    "dirty": false,
+    "created": 1715881418288.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "120,16",
+        "scrollLine": "105"
+    },
+    "folds": "31|22|46|0|\n",
+    "lastKnownWriteTime": 1715885639,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1715885639506,
+    "read_only": false,
+    "read_only_alternatives": []
+}
