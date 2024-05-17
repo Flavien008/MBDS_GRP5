@@ -125,7 +125,7 @@ TBLPROPERTIES (
 
 ### Importation des Données
 
-Pour notre projet nous avons décidé de placer les données de Catalogue et d'Immatriculations dans le serveur Mongo DB.
+Pour notre projet nous avons décidé de placer les données de Catalogue dans le serveur Mongo DB.
 
 Pour réaliser l'import des données on va utiliser l'utilitaire mongoimport.
 
@@ -146,8 +146,7 @@ On execute la serie des commandes suivante :
 ```bash
 // Créer la BDD TPA
 use TPA
-// Créer les deux collections "Immatriculation" "Catalogue" :
-db.createCollection("Immatriculation")
+// Créer les deux collections "Catalogue" :
 db.createCollection("Catalogue")
 // Verifier les collections
 show collections
@@ -162,20 +161,12 @@ mongoimport -d TPA -c Catalogue --type=csv --file="$DATAHOME/Catalogue.csv"  --h
 
 ```
 
-De meme pour Immatriculation :
-
-```bash
-mongoimport -d TPA -c Immatriculation --type=csv --file="$DATAHOME/Immatriculations.csv" --headerline
-
-```
-
 On peut verifier que les donnees on ete bien importees :
 
 ```bash
 mongo
 use TPA
 db.Catalogue.find({})
-db.Immatriculation.find({})
 ```
 
 ### Création des tables externes sur HIVE
@@ -201,31 +192,11 @@ WITH SERDEPROPERTIES('mongo.columns.mapping'='{"id":"_id", "marque":"marque", "n
 TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Catalogue');
 ```
 
-- script de création de la table Immatriculation
-
-```bash
-CREATE EXTERNAL TABLE immatriculation_ext (
-id STRING,
-Immatriculation STRING,
-Marque STRING,
-Nom STRING,
-Puissance DOUBLE,
-Longueur STRING,
-NbPlaces INT,
-NbPortes INT,
-Couleur STRING,
-Occasion STRING,
-Prix DOUBLE )
-STORED BY 'com.mongodb.hadoop.hive.MongoStorageHandler'
-WITH SERDEPROPERTIES('mongo.columns.mapping'='{"id":"_id", "immatriculation":"immatriculation", "marque":"marque", "nom" : "nom", "puissance": "puissance", "longueur" : "longueur", "nbPlaces" : "nbPlaces", "nbPortes" : "nbPortes", "couleur" : "couleur", "occasion" : "occasion", "prix" : "prix"}')
-TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Immatriculation');
-```
-
 ## Source Hadoop Distributed File System (HDFS)
 
 ### Importation des Données
 
-Pour notre projet, nous avons décidé de stocker le fichier CO2.csv dans HDFS. Pour l'importer, veuillez suivre les étapes ci-dessous :
+Pour notre projet, nous avons décidé de stocker le fichier CO2.csv et immatriculation dans HDFS. Pour l'importer, veuillez suivre les étapes ci-dessous :
 
 - Définissez le chemin du répertoire HDFS :
 
@@ -238,6 +209,13 @@ export HDFSHOME=/vagrant/MBDS_GRP5/DATA_EXTRACTOR/hdfs
 ```bash
 hadoop fs -mkdir -p /user/vagrant/input
 hadoop fs -put $DATAHOME/CO2.csv /user/vagrant/input/CO2.csv
+```
+
+- Créez un répertoire "data" sur HDFS et transférez le fichier immatriculations.csv depuis le répertoire local vers HDFS :
+
+```bash
+hadoop fs -mkdir -p /user/vagrant/data
+hadoop fs -put $DATAHOME/immatriculations.csv.csv /user/vagrant/data/immatriculations.csv
 ```
 
 - Lancez le script Spark pour nettoyer et transformer les données (Map Reduce) :
@@ -291,4 +269,25 @@ LEFT JOIN
 ON
     LOWER(catalogue_ext.Marque) = LOWER(co2_ext.marque),
 avg_co2;
+```
+
+
+- script de création de la table Immatriculation
+
+```bash
+CREATE EXTERNAL TABLE immatriculation_ext (
+id STRING,
+Immatriculation STRING,
+Marque STRING,
+Nom STRING,
+Puissance DOUBLE,
+Longueur STRING,
+NbPlaces INT,
+NbPortes INT,
+Couleur STRING,
+Occasion STRING,
+Prix DOUBLE )
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE LOCATION 'hdfs:/user/vagrant/data/immatriculations.csv' 
+TBLPROPERTIES ("skip.header.line.count" = "1");
 ```
