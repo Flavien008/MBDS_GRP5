@@ -287,7 +287,9 @@ NbPortes INT,
 Couleur STRING,
 Occasion STRING,
 Prix DOUBLE )
-ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
-STORED AS TEXTFILE LOCATION 'hdfs:/user/vagrant/data/immatriculations.csv' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/vagrant/data'
 TBLPROPERTIES ("skip.header.line.count" = "1");
 ```
