@@ -53,7 +53,6 @@ WITH SERDEPROPERTIES('mongo.columns.mapping'='{"id":"_id", "marque":"marque", "n
 TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Catalogue');
 
 CREATE EXTERNAL TABLE immatriculation_ext (
-id STRING,
 Immatriculation STRING,
 Marque STRING,
 Nom STRING,

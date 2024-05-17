@@ -276,7 +276,6 @@ avg_co2;
 
 ```bash
 CREATE EXTERNAL TABLE immatriculation_ext (
-id STRING,
 Immatriculation STRING,
 Marque STRING,
 Nom STRING,

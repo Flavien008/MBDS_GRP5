@@ -16,41 +16,18 @@ catalogue <- dbGetQuery(hiveDB, "select
                         catalogue_ext.prix as prix
                         from catalogue_ext")
 
-# Récupérer le nombre total de lignes dans la table immatriculation_ext
-nb_lignes_totales <- dbGetQuery(hiveDB, "SELECT COUNT(*) as total FROM immatriculation_ext")$total
-
-# Définir le nombre de lignes par lot
-taille_lot <- 1000
-
-# Calculer le nombre total de lots nécessaires
-nb_lots <- ceiling(nb_lignes_totales / taille_lot)
-
-# Initialiser une liste pour stocker les données par lot
-donnees_par_lot <- list()
-
-# Boucle pour extraire et stocker les données par lot
-for (i in 1:nb_lots) {
-  # Calculer l'offset pour obtenir le prochain lot de données
-  offset <- (i - 1) * taille_lot
-  offset <- as.integer(offset)
-  
-  # Requête pour récupérer les données par lot
-  query <- paste0("SELECT *
-                   FROM immatriculation_ext
-                   LIMIT ", taille_lot, " OFFSET ", offset)
-  
-  # Récupérer les données
-  donnees_lot <- dbGetQuery(hiveDB, query)
-  
-  # Stocker les données dans la liste
-  donnees_par_lot[[i]] <- donnees_lot
-}
-
-# Concaténer les données stockées dans la liste en une seule variable
-immatriculation <- do.call(rbind, donnees_par_lot)
-
-# Afficher les dimensions des données totales
-print(dim(immatriculation))
+immatriculation <- dbGetQuery(hiveDB,"select 
+                        immatriculation_ext.immatriculation as immatriculation,
+                        immatriculation_ext.marque as marque,
+                        immatriculation_ext.nom as nom,
+                        immatriculation_ext.puissance as puissance,
+                        immatriculation_ext.longueur as longueur,
+                        immatriculation_ext.nbplaces as nbplaces,
+                        immatriculation_ext.nbportes as nbportes,
+                        immatriculation_ext.couleur as couleur,
+                        immatriculation_ext.occasion as occasion,
+                        immatriculation_ext.prix as prix
+                        from immatriculation_ext")
 
 
 co2table <- dbGetQuery(hiveDB, "select 
@@ -130,7 +107,9 @@ names(clientImmat)
 summary(clientImmat)
 
 # dans notre dataset 'très longue' correspond à 'tr'
+# Mettre à jour la colonne 'immatriculation_ext.longueur'
 immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr', "très longue", longueur))
+
 clientImmat$longueur <- with(clientImmat, ifelse(longueur == 'tr', "très longue", longueur))
 
 # concernant l'age nous avons des anomalies avec des ages negatifs. Pour corriger cette anomalie nous allons remplacer les ages negatifs par la mediane : 41
