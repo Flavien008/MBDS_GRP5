@@ -106,6 +106,25 @@ str(clientImmat)
 names(clientImmat)
 summary(clientImmat)
 
+
+
+#Visualisation des données
+# Histogrammes pour les variables continues
+
+numeric_vars <- names(immatriculation)[sapply(immatriculation, is.numeric)]
+
+for (var in numeric_vars) {
+  p <- ggplot(immatriculation, aes_string(var)) + 
+    geom_histogram(binwidth = 30, fill = 'blue', color = 'black') + 
+    ggtitle(paste("Histogram of", var)) + 
+    theme_minimal() + 
+    xlab(var) + 
+    ylab("Frequency")
+  
+  print(p)
+}
+
+
 # dans notre dataset 'très longue' correspond à 'tr'
 # Mettre à jour la colonne 'immatriculation_ext.longueur'
 immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr', "très longue", longueur))
