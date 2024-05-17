@@ -81,7 +81,7 @@ clientImmat <- dbGetQuery(hiveDB, "select
                   from clients_ext inner join immatriculation_ext
                   on clients_ext.immatriculation = immatriculation_ext.immatriculation")
 
-# Manipulations de base
+# # Inspection initiale des datasets
 str(catalogue)
 names(catalogue)
 summary(catalogue)
@@ -110,7 +110,8 @@ summary(clientImmat)
 
 #Visualisation des données
 # Histogrammes pour les variables continues
-
+install.packages("ggplot2")
+library(ggplot2)
 numeric_vars <- names(immatriculation)[sapply(immatriculation, is.numeric)]
 
 for (var in numeric_vars) {
