@@ -114,10 +114,15 @@ summary(clientImmat)
 #Visualisation des données
 
 # Histogramme des âges des clients
-ggplot(result, aes(x = age)) +
+ggplot(clientImmat, aes(x = age)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
   labs(title = "Histogramme des âges des clients", x = "Âge", y = "Fréquence")
 
+# Barplot des marques de voitures
+ggplot(clientImmat, aes(x = marque)) +
+  geom_bar(fill = "lightblue", color = "black") +
+  labs(title = "Nombre de voitures par marque", x = "Marque", y = "Nombre de voitures") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # dans notre dataset 'très longue' correspond à 'tr'
 # Mettre à jour la colonne 'immatriculation_ext.longueur'
