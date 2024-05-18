@@ -54,12 +54,20 @@ definir_categorie_cluster <- function(data) {
 # Appliquer la fonction aux datasets
 catalogue <- definir_categorie_cluster(catalogue)
 
+# Convertir toutes les valeurs de la colonne "marque" en minuscules pour la fusion insensible à la casse
+immatriculation$marque <- tolower(immatriculation$marque)
+catalogue$marque <- tolower(catalogue$marque)
+
 # Fusionner les données
 immatrCatalog <- merge(x = immatriculation, by = c( "marque","puissance", "longueur", "nbplaces", "nbportes", "prix"), y = catalogue )
 immatrCatalog <- unique(immatrCatalog)
 str(immatrCatalog)
 
+
+clientsImmat <- merge(x = clients, by = c( "immatriculation"), y = immatrCatalog )
+
+
 # Vérifier le nombre d'éléments dans chaque catégorie
 print(table(catalogue$categorie))
 print(table(immatrCatalog$categorie))
-
+print(table(clientsImmat$categorie))
