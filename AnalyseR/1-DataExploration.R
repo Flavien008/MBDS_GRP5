@@ -112,21 +112,11 @@ summary(clientImmat)
 
 
 #Visualisation des données
-# Histogrammes pour les variables continues
-install.packages("ggplot2")
-library(ggplot2)
-numeric_vars <- names(immatriculation)[sapply(immatriculation, is.numeric)]
 
-for (var in numeric_vars) {
-  p <- ggplot(immatriculation, aes_string(var)) + 
-    geom_histogram(binwidth = 30, fill = 'blue', color = 'black') + 
-    ggtitle(paste("Histogram of", var)) + 
-    theme_minimal() + 
-    xlab(var) + 
-    ylab("Frequency")
-  
-  print(p)
-}
+# Histogramme des âges des clients
+ggplot(result, aes(x = age)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  labs(title = "Histogramme des âges des clients", x = "Âge", y = "Fréquence")
 
 
 # dans notre dataset 'très longue' correspond à 'tr'
