@@ -4,17 +4,20 @@
 
 # Chargement des donnees
 catalogue <- dbGetQuery(hiveDB, "select 
-                        catalogue_ext.id as id,
-                        catalogue_ext.marque as marque,
-                        catalogue_ext.nom as nom,
-                        catalogue_ext.puissance as puissance,
-                        catalogue_ext.longueur as longueur,
-                        catalogue_ext.nbplaces as nbplaces,
-                        catalogue_ext.nbportes as nbportes,
-                        catalogue_ext.couleur as couleur,
-                        catalogue_ext.occasion as occasion,
-                        catalogue_ext.prix as prix
-                        from catalogue_ext")
+                        catalogue_co2.id as id,
+                        catalogue_co2.marque as marque,
+                        catalogue_co2.nom as nom,
+                        catalogue_co2.puissance as puissance,
+                        catalogue_co2.longueur as longueur,
+                        catalogue_co2.nbplaces as nbplaces,
+                        catalogue_co2.nbportes as nbportes,
+                        catalogue_co2.couleur as couleur,
+                        catalogue_co2.occasion as occasion,
+                        catalogue_co2.prix as prix,
+                        catalogue_co2.malusbonus as malusbonus,
+                        catalogue_co2.rejetsco2 as rejetsco2,
+                        catalogue_co2.coutenergie as coutenergie
+                        from catalogue_co2")
 
 immatriculation <- dbGetQuery(hiveDB,"select 
                         immatriculation_ext.immatriculation as immatriculation,
