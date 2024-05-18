@@ -51,10 +51,57 @@ definir_categorie_cluster <- function(data) {
 }
 
 
+definir_categorie_Immatriculation <- function(data) {
+  # Préparer les données
+  data_prep <- data[, c("puissance", "longueur", "nbplaces", "nbportes")]
+  
+  # Convertir longueur en facteur si ce n'est pas déjà fait
+  if (!is.factor(data_prep$longueur)) {
+    data_prep$longueur <- factor(data_prep$longueur)
+  }
+  
+  # Normaliser les variables numériques
+  data_norm <- scale(data_prep[, c("puissance", "nbplaces", "nbportes")])
+  
+  # Clustering hiérarchique
+  hc <- hclust(dist(data_norm), method = "ward.D")
+  
+  # Découper les clusters en 5 catégories
+  nb_cluster <- 5
+  coupes <- cutree(hc, k = nb_cluster)
+  
+  # Mapper les clusters aux catégories
+  mapping_clusters_categories <- function(cluster) {
+    if (cluster == 1) {
+      return("citadine")
+    } else if (cluster == 2) {
+      return("sportive")
+    } else if (cluster == 3) {
+      return("familiale")
+    } else if (cluster == 4) {
+      return("confort")
+    } else if (cluster == 5) {
+      return("longue")
+    }
+  }
+  
+  # Ajouter la colonne "categorie" sans perdre les colonnes existantes
+  data$categorie <- sapply(coupes, mapping_clusters_categories)
+  
+  # Renvoyer les données avec la catégorie ajoutée
+  return(data)
+}
+
+
 
 
 # Appliquer la fonction aux datasets
 catalogue <- definir_categorie_cluster(catalogue)
+
+
+#eto le andramana
+immatriculation <- definir_categorie_Immatriculation(immatriculation)
+
 
 # Convertir toutes les valeurs de la colonne "marque" en minuscules pour la fusion insensible à la casse
 immatriculation$marque <- tolower(immatriculation$marque)
