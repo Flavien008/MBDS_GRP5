@@ -112,7 +112,8 @@ summary(clientImmat)
 
 
 #Visualisation des données
-
+install.packages("ggplot2")
+library("ggplot2")
 # Histogramme des âges des clients
 ggplot(clientImmat, aes(x = age)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
