@@ -2,7 +2,7 @@
 
   # Nous allons catégoriser les véhicules en cinq catégories principales en fonction de certaines caractéristiques pertinentes, à savoir :
   
-  #citadine #sportive #familiale #confort #classic 
+  #citadine #sportive #familiale #confort #longue 
 
 # Installer et charger le package cluster
 install.packages("cluster")
@@ -65,7 +65,7 @@ str(immatrCatalog)
 
 
 clientsImmat <- merge(x = clients, by = c( "immatriculation"), y = immatrCatalog )
-
+clientsImmat <- unique(clientsImmat)
 
 # Vérifier le nombre d'éléments dans chaque catégorie
 print(table(catalogue$categorie))
