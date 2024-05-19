@@ -24,7 +24,7 @@ definir_categorie_cluster <- function(data) {
   hc <- hclust(dist(data_norm), method = "ward.D")
   
   # Découper les clusters en 5 catégories
-  nb_cluster <- 6
+  nb_cluster <- 7
   coupes <- cutree(hc, k = nb_cluster)
   
   # Analyser les clusters pour déterminer les caractéristiques dominantes
@@ -50,18 +50,17 @@ definir_categorie_cluster <- function(data) {
   
   # Mapper les clusters aux catégories en fonction des analyses
   mapping_clusters_categories <- function(cluster) {
-    if (cluster_info$puissance_moyenne[cluster] == second_max_puissance) {
+    if (cluster_info$puissance_moyenne[cluster] == max(cluster_info$puissance_moyenne)) {
       return("sportive")
-    }else if (cluster_info$prix_moyen[cluster] == max(cluster_info$prix_moyen )&& cluster_info$puissance_moyenne[cluster] == max(cluster_info$puissance_moyenne)) {
+    }else if (cluster_info$prix_moyen[cluster] == max(cluster_info$prix_moyen )) {
       return("luxe")
     } else if (cluster_info$nbplaces_moyenne[cluster] == max(cluster_info$nbplaces_moyenne)) {
       return("familiale")
-    } else if (cluster_info$coutenergie_moyen[cluster] == min(cluster_info$coutenergie_moyen)) {
+    } else if (cluster_info$puissance_moyenne[cluster] == min(cluster_info$puissance_moyenne)) {
       return("citadine")
     } else if (cluster_info$nbportes_moyenne[cluster] > 3) {
       return("confort")
-    }
-    else {
+    }else {
       return("longue")
     }
     
