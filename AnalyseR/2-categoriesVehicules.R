@@ -58,10 +58,10 @@ definir_categorie_cluster <- function(data) {
       return("familiale")
     } else if (cluster_info$puissance_moyenne[cluster] == min(cluster_info$puissance_moyenne)) {
       return("citadine")
-    } else if (cluster_info$nbportes_moyenne[cluster] > 3) {
+    }else if (cluster_info$rejetsco2_moyen[cluster] == min(cluster_info$rejetsco2_moyen)) {
+      return("ecologique")
+    }else if (cluster_info$nbportes_moyenne[cluster] > 3) {
       return("confort")
-    }else {
-      return("longue")
     }
     
     print(max(cluster_info$prix_moyen))
