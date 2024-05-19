@@ -106,13 +106,11 @@ marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="c
 # Mettre à jour la colonne 'catalogue.longueur'
 catalogue$longueur <- with(catalogue, ifelse(longueur == 'tr�s longue', "très longue", longueur))
 
-# dans notre dataset 'très longue' correspond à 'tr�s longue''
 # Mettre à jour la colonne 'immatriculation_ext.longueur'
 immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr�s longue', "très longue", longueur))
 
 # concernant l'age nous avons des anomalies avec des ages negatifs. Pour corriger cette anomalie nous allons remplacer les ages negatifs par la mediane : 41
 clients$age <- with(clients, ifelse(age < 0, 41 ,age))
-
 # de meme pour le taux avec une mediane à 521
 clients$taux <- with(clients, ifelse(taux < 0, 521 ,taux))
 
@@ -133,8 +131,8 @@ clients$sexe <- ifelse(clients$sexe %in% c("FEMININ", "FEMME"), "F", clients$sex
 #situation familiale
 # Convertir les valeurs à comparer en minuscules
 clients$situation_familiale <- tolower(clients$situation_familiale)
+# Remplacer les valeurs
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("c�libataire"), "célibataire", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("mari�(e)"), "marié(e)", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorc�(e)"), "divorcé(e)", clients$situation_familiale)
-# Remplacer les valeurs
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("seule", "seul"), "seule", clients$situation_familiale)
