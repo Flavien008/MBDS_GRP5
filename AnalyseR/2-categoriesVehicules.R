@@ -8,10 +8,9 @@
 install.packages("cluster")
 library(cluster)
 
-# Fonction de catégorisation
 definir_categorie_cluster <- function(data) {
   # Préparer les données
-  data_prep <- data[, c("puissance", "longueur", "nbplaces", "nbportes","malusbonus","rejetsco2","coutenergie")]
+  data_prep <- data[, c("puissance", "longueur", "nbplaces", "nbportes", "malusbonus", "rejetsco2", "coutenergie")]
   
   # Convertir longueur en facteur si ce n'est pas déjà fait
   if (!is.factor(data_prep$longueur)) {
@@ -19,7 +18,7 @@ definir_categorie_cluster <- function(data) {
   }
   
   # Normaliser les variables numériques
-  data_norm <- scale(data_prep[, c("puissance", "nbplaces", "nbportes","malusbonus","rejetsco2","coutenergie")])
+  data_norm <- scale(data_prep[, c("puissance", "nbplaces", "nbportes", "malusbonus", "rejetsco2", "coutenergie")])
   
   # Clustering hiérarchique
   hc <- hclust(dist(data_norm), method = "ward.D")
@@ -28,17 +27,34 @@ definir_categorie_cluster <- function(data) {
   nb_cluster <- 5
   coupes <- cutree(hc, k = nb_cluster)
   
-  # Mapper les clusters aux catégories
+  # Analyser les clusters pour déterminer les caractéristiques dominantes
+  cluster_analysis <- function(data, clusters) {
+    analysis <- data.frame(
+      cluster = 1:nb_cluster,
+      puissance_moyenne = tapply(data$puissance, clusters, mean),
+      nbplaces_moyenne = tapply(data$nbplaces, clusters, mean),
+      nbportes_moyenne = tapply(data$nbportes, clusters, mean),
+      malusbonus_moyen = tapply(data$malusbonus, clusters, mean),
+      rejetsco2_moyen = tapply(data$rejetsco2, clusters, mean),
+      coutenergie_moyen = tapply(data$coutenergie, clusters, mean)
+    )
+    return(analysis)
+  }
+  
+  cluster_info <- cluster_analysis(data_prep, coupes)
+  print(cluster_info) # Afficher les informations pour vérification
+  
+  # Mapper les clusters aux catégories en fonction des analyses
   mapping_clusters_categories <- function(cluster) {
-    if (cluster == 1) {
-      return("citadine")
-    } else if (cluster == 2) {
+    if (cluster_info$puissance_moyenne[cluster] == max(cluster_info$puissance_moyenne)) {
       return("sportive")
-    } else if (cluster == 3) {
+    } else if (cluster_info$nbplaces_moyenne[cluster] == max(cluster_info$nbplaces_moyenne)) {
       return("familiale")
-    } else if (cluster == 4) {
+    } else if (cluster_info$coutenergie_moyen[cluster] == min(cluster_info$coutenergie_moyen)) {
+      return("citadine")
+    } else if (cluster_info$nbportes_moyenne[cluster] > 3) {
       return("confort")
-    } else if (cluster == 5) {
+    } else {
       return("longue")
     }
   }
@@ -53,6 +69,8 @@ definir_categorie_cluster <- function(data) {
 
 # Appliquer la fonction aux 
 catalogue <- definir_categorie_cluster(catalogue)
+
+View(catalogue)
 
 # Convertir toutes les valeurs de la colonne "marque" en minuscules pour la fusion insensible à la casse
 immatriculation$marque <- tolower(immatriculation$marque)
