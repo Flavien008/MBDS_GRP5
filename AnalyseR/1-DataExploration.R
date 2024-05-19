@@ -61,28 +61,6 @@ clients <- dbGetQuery(hiveDB, "select
                   clients_ext.immatriculation as immatriculation
                   from clients_ext")
 
-# etant donné le volume de donnée import d'immatriculation, j'ai fait le choix d'importer les tâbles jointes avec HIVE :
-#on réalise une fusion entre clients et immatriculations
-clientImmat <- dbGetQuery(hiveDB, "select 
-                  clients_ext.clientid as id,
-                  clients_ext.age as age,
-                  clients_ext.sexe as sexe,
-                  clients_ext.taux as taux,
-                  clients_ext.situation_familiale as situation_familiale,
-                  clients_ext.nbr_enfant as nbr_enfant,
-                  clients_ext.voiture_2 as voiture_2,
-                  clients_ext.immatriculation as immatriculation,
-                  immatriculation_ext.marque as marque,
-                  immatriculation_ext.nom as nom,
-                  immatriculation_ext.puissance as puissance,
-                  immatriculation_ext.longueur as longueur,
-                  immatriculation_ext.nbplaces as nbplaces,
-                  immatriculation_ext.nbportes as nbportes,
-                  immatriculation_ext.couleur as couleur,
-                  immatriculation_ext.occasion as occasion,
-                  immatriculation_ext.prix as prix
-                  from clients_ext inner join immatriculation_ext
-                  on clients_ext.immatriculation = immatriculation_ext.immatriculation")
 
 # # Inspection initiale des datasets
 str(catalogue)
@@ -105,36 +83,58 @@ str(clients)
 names(clients)
 summary(clients)
 
-str(clientImmat)
-names(clientImmat)
-summary(clientImmat)
-
-
 
 #Visualisation des données
 install.packages("ggplot2")
 library("ggplot2")
 # Histogramme des âges des clients
-ggplot(clientImmat, aes(x = age)) +
+ggplot(clients, aes(x = age)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
   labs(title = "Histogramme des âges des clients", x = "Âge", y = "Fréquence")
 
 # Barplot des marques de voitures
-ggplot(clientImmat, aes(x = marque)) +
+ggplot(immatriculation,aes(x = marque)) +
   geom_bar(fill = "lightblue", color = "black") +
   labs(title = "Nombre de voitures par marque", x = "Marque", y = "Nombre de voitures") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# dans notre dataset 'très longue' correspond à 'tr'
-# Mettre à jour la colonne 'immatriculation_ext.longueur'
-immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr', "très longue", longueur))
 
-clientImmat$longueur <- with(clientImmat, ifelse(longueur == 'tr', "très longue", longueur))
+# Mettre à jour la colonne 'marketing.situation familiale'
+marketing$situation_familiale <- tolower(marketing$situation_familiale)
+marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="c�libataire", "célibataire",situation_familiale))
+
+# Mettre à jour la colonne 'catalogue.longueur'
+catalogue$longueur <- with(catalogue, ifelse(longueur == 'tr�s longue', "très longue", longueur))
+
+# dans notre dataset 'très longue' correspond à 'tr�s longue''
+# Mettre à jour la colonne 'immatriculation_ext.longueur'
+immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr�s longue', "très longue", longueur))
 
 # concernant l'age nous avons des anomalies avec des ages negatifs. Pour corriger cette anomalie nous allons remplacer les ages negatifs par la mediane : 41
-clientImmat$age <- with(clientImmat, ifelse(age < 0, 41 ,age))
 clients$age <- with(clients, ifelse(age < 0, 41 ,age))
 
 # de meme pour le taux avec une mediane à 521
-clientImmat$taux <- with(clientImmat, ifelse(taux < 0, 521 ,taux))
 clients$taux <- with(clients, ifelse(taux < 0, 521 ,taux))
+
+#pour le sexe du client
+# Supprimer les caractères spéciaux
+clients$sexe <- gsub("[^A-Za-z]", "", clients$sexe)
+
+# Mettre en majuscules
+clients$sexe <- toupper(clients$sexe)
+
+# Supprimer les espaces vides
+clients$sexe <- gsub("\\s+", "", clients$sexe)
+
+# Remplacer les valeurs
+clients$sexe <- ifelse(clients$sexe %in% c("MASCULIN", "HOMME"), "M", clients$sexe)
+clients$sexe <- ifelse(clients$sexe %in% c("FEMININ", "FEMME"), "F", clients$sexe)
+
+#situation familiale
+# Convertir les valeurs à comparer en minuscules
+clients$situation_familiale <- tolower(clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("c�libataire"), "célibataire", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("mari�(e)"), "marié(e)", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorc�(e)"), "divorcé(e)", clients$situation_familiale)
+# Remplacer les valeurs
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("seule", "seul"), "seule", clients$situation_familiale)
