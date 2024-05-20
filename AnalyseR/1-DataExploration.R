@@ -1,3 +1,7 @@
+install.packages("skimr")
+library(skimr)
+
+
 #------------------------#
 # CHARGEMENT DES DONNeES #
 #------------------------#
@@ -138,5 +142,15 @@ clients$situation_familiale <- tolower(clients$situation_familiale)
 # Remplacer les valeurs
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("c�libataire"), "celibataire", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("mari�(e)"), "marie(e)", clients$situation_familiale)
-clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorc�(e)"), "divorce(e)", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorc�e"), "divorce(e)", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("seule", "seul"), "seule", clients$situation_familiale)
+clients$sexe[clients$sexe == ""] <- "ND"
+clients$sexe[clients$sexe == "FMININ"] <- "F"
+clients$situation_familiale[clients$situation_familiale=="?"] <-"ND"
+clients$situation_familiale[clients$situation_familiale==" "] <-"ND"
+clients$situation_familiale[clients$situation_familiale=="n/d"] <-"ND"
+clients$nbr_enfant[clients$nbr_enfant == -1] <- 0
+
+print(summary(catalogue))
+print(skim(catalogue))
+print(skim(clients))
