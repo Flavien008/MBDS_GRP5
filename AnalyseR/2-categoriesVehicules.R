@@ -89,7 +89,7 @@ immatriculation$couleur <- tolower(immatriculation$couleur)
 # Fusionner les données
 immatrCatalog <- merge(x = immatriculation, by = c( "marque","nom","puissance", "longueur", "nbplaces", "nbportes","couleur", "prix"), y = catalogue )
 immatrCatalog <- unique(immatrCatalog)
-str(immatrCatalog)
+View(immatrCatalog)
 
 
 clientsImmat <- merge(x = clients, by = c( "immatriculation"), y = immatrCatalog )

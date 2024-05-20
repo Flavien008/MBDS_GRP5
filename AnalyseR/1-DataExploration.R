@@ -1,5 +1,5 @@
 #------------------------#
-# CHARGEMENT DES DONNÉES #
+# CHARGEMENT DES DONNeES #
 #------------------------#
 
 # Chargement des donnees
@@ -84,13 +84,13 @@ names(clients)
 summary(clients)
 
 
-#Visualisation des données
+#Visualisation des donnees
 install.packages("ggplot2")
 library("ggplot2")
 # Histogramme des âges des clients
 ggplot(clients, aes(x = age)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
-  labs(title = "Histogramme des âges des clients", x = "Âge", y = "Fréquence")
+  labs(title = "Histogramme des âges des clients", x = "Âge", y = "Frequence")
 
 # Barplot des marques de voitures
 ggplot(immatriculation,aes(x = marque)) +
@@ -101,13 +101,13 @@ ggplot(immatriculation,aes(x = marque)) +
 
 # Mettre à jour la colonne 'marketing.situation familiale'
 marketing$situation_familiale <- tolower(marketing$situation_familiale)
-marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="c�libataire", "célibataire",situation_familiale))
+marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="c�libataire", "celibataire",situation_familiale))
 
 # Mettre à jour la colonne 'catalogue.longueur'
-catalogue$longueur <- with(catalogue, ifelse(longueur == 'tr�s longue', "très longue", longueur))
+catalogue$longueur <- with(catalogue, ifelse(longueur == 'tr�s longue', "tres longue", longueur))
 
 # Mettre à jour la colonne 'immatriculation_ext.longueur'
-immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr�s longue', "très longue", longueur))
+immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr�s longue', "tres longue", longueur))
 
 # concernant l'age nous avons des anomalies avec des ages negatifs. Pour corriger cette anomalie nous allons remplacer les ages negatifs par la mediane : 41
 clients$age <- with(clients, ifelse(age < 0, 41 ,age))
@@ -115,7 +115,7 @@ clients$age <- with(clients, ifelse(age < 0, 41 ,age))
 clients$taux <- with(clients, ifelse(taux < 0, 521 ,taux))
 
 #pour le sexe du client
-# Supprimer les caractères spéciaux
+# Supprimer les caracteres speciaux
 clients$sexe <- gsub("[^A-Za-z]", "", clients$sexe)
 
 # Mettre en majuscules
@@ -127,12 +127,16 @@ clients$sexe <- gsub("\\s+", "", clients$sexe)
 # Remplacer les valeurs
 clients$sexe <- ifelse(clients$sexe %in% c("MASCULIN", "HOMME"), "M", clients$sexe)
 clients$sexe <- ifelse(clients$sexe %in% c("FEMININ", "FEMME"), "F", clients$sexe)
+clients$sexe <- ifelse(clients$sexe %in% c("FEMININ", "FEMME"), "F", clients$sexe)
+
+summary(clients)
+
 
 #situation familiale
 # Convertir les valeurs à comparer en minuscules
 clients$situation_familiale <- tolower(clients$situation_familiale)
 # Remplacer les valeurs
-clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("c�libataire"), "célibataire", clients$situation_familiale)
-clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("mari�(e)"), "marié(e)", clients$situation_familiale)
-clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorc�(e)"), "divorcé(e)", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("c�libataire"), "celibataire", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("mari�(e)"), "marie(e)", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorc�(e)"), "divorce(e)", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("seule", "seul"), "seule", clients$situation_familiale)
