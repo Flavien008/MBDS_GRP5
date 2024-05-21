@@ -3,34 +3,13 @@
 #-------------------------#
 
 # Sélection des colonnes nécessaires pour l'analyse
-clientsImmat <- clientsImmat[, c("age", "sexe", "taux", "situation_familiale", "nbr_enfant", "voiture_2", 
-                                 "puissance", "longueur", "nbplaces", "nbportes", "couleur", "prix", 
-                                 "malusbonus", "rejetsco2", "coutenergie", "categorie")]
+clientsImmat <- clientsImmat[, c("age", "sexe", "taux", "situation_familiale", "nbr_enfant", "voiture_2", "categorie")]
 
-
-# Normalisation des variables numériques
-clientsImmat[, c("age", "taux", "puissance", "prix", "malusbonus", "rejetsco2", "coutenergie")] <- scale(clientsImmat[, c("age", "taux", "puissance", "prix", "malusbonus", "rejetsco2", "coutenergie")])
-
-# Suppression des colonnes moins importantes
-clientsImmat_reduced <- clientsImmat[, !colnames(clientsImmat) %in% c("nbr_enfant", "voiture_2", "couleur")]
 
 clientsImmat$sexe<-as.factor(clientsImmat$sexe)
-clientsImmat$sexe<-as.factor(clientsImmat$sexe)
-
 clientsImmat$situation_familiale<-as.factor(clientsImmat$situation_familiale)
-clientsImmat$situation_familiale<-as.factor(clientsImmat$situation_familiale)
-
-clientsImmat$voiture_2<-as.factor(clientsImmat$voiture_2)
-clientsImmat$voiture_2<-as.factor(clientsImmat$voiture_2)
-
-clientsImmat$categorie<-as.factor(clientsImmat$categorie)
 clientsImmat$categorie<-as.factor(clientsImmat$categorie)
 
-clientsImmat$longueur<-as.factor(clientsImmat$longueur)
-clientsImmat$longueur<-as.factor(clientsImmat$longueur)
-
-clientsImmat$couleur<-as.factor(clientsImmat$couleur)
-clientsImmat$couleur<-as.factor(clientsImmat$couleur)
 
 # Préparation des ensembles d'apprentissage et de test
 set.seed(123)  # Fixe la graine aléatoire pour la reproductibilité
@@ -107,25 +86,22 @@ print(taux_rp4 <- nrow(clientsImmat_ET[clientsImmat_ET$categorie == test_rp4, ])
 # Affichage de l'aide 
 ? C5.0
 
-str(clientsImmat_EA)
-summary(clientsImmat_EA)
-
 
 # Apprentissage avec minCases = 10 et noGlobalPruning = FALSE
 tree_C51 <- C5.0(categorie ~ ., data = clientsImmat_EA, control = C5.0Control(minCases = 10, noGlobalPruning = FALSE))
-plot(tree_C51)
+plot(tree_C51, type="simple")
 
 # Apprentissage avec minCases = 10 et noGlobalPruning = TRUE
 tree_C52 <- C5.0(categorie ~ ., data = clientsImmat_EA, control = C5.0Control(minCases = 10, noGlobalPruning = TRUE))
-plot(tree_C52)
+plot(tree_C52, type="simple")
 
 # Apprentissage avec minCases = 5 et noGlobalPruning = FALSE
 tree_C53 <- C5.0(categorie ~ ., data = clientsImmat_EA, control = C5.0Control(minCases = 5, noGlobalPruning = FALSE))
-plot(tree_C53)
+plot(tree_C53, type="simple")
 
 # Apprentissage avec minCases = 5 et noGlobalPruning = TRUE
 tree_C54 <- C5.0(categorie ~ ., data = clientsImmat_EA, control = C5.0Control(minCases = 5, noGlobalPruning = TRUE))
-plot(tree_C54)
+plot(tree_C54, type="simple")
 
 #----------------------------------------------------------------#
 # TEST DES CLASSIFIEURS C5.0() ET CALCUL DES TAUX DE SUCCES #
@@ -146,4 +122,36 @@ print(taux_C53 <- sum(clientsImmat_ET$categorie == test_C53) / nrow(clientsImmat
 # Test et taux de succès pour le 4ème paramétrage pour C5.0()
 test_C54 <- predict(tree_C54, clientsImmat_ET)
 print(taux_C54 <- sum(clientsImmat_ET$categorie == test_C54) / nrow(clientsImmat_ET))
+
+
+#--------------------------------------------------------------------#
+# APPRENTISSAGE DES CLASSIFIEURS tree() AVEC DIFFERENTS PARAMETRAGES #
+#--------------------------------------------------------------------#
+
+# Affichage de l'aide 
+? tree
+
+
+# Apprentissage avec split = "deviance" et mincut = 10
+tree_tr1 <- tree(categorie ~ ., data = clientsImmat_EA, split = "deviance", control = tree.control(nrow(clientsImmat_EA), mincut = 10))
+plot(tree_tr1)
+text(tree_tr1, pretty = 0)
+
+# Apprentissage avec split = "deviance" et mincut = 5
+tree_tr2 <- tree(categorie ~ ., data = clientsImmat_EA, split = "deviance", control = tree.control(nrow(clientsImmat_EA), mincut = 5))
+plot(tree_tr2)
+text(tree_tr2, pretty = 0)
+
+
+#----------------------------------------------------------------#
+# TEST DES DES CLASSIFIEURS tree() ET CALCUL DES TAUX DE SUCCES #
+#----------------------------------------------------------------#
+
+# Test et taux de succès pour le 1er paramétrage pour tree()
+test_tr1 <- predict(tree_tr1, clientsImmat_ET, type = "class")
+print(taux_tr1 <- sum(clientsImmat_ET$categorie == test_tr1) / nrow(clientsImmat_ET))
+
+# Test et taux de succès pour le 2nd paramétrage pour tree()
+test_tr2 <- predict(tree_tr2, clientsImmat_ET, type = "class")
+print(taux_tr2 <- sum(clientsImmat_ET$categorie == test_tr2) / nrow(clientsImmat_ET))
 
