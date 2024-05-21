@@ -66,7 +66,7 @@ clients <- dbGetQuery(hiveDB, "select
                   from clients_ext")
 
 
-# # Inspection initiale des datasets
+# Inspection initiale des datasets
 str(catalogue)
 names(catalogue)
 summary(catalogue)
@@ -106,12 +106,18 @@ ggplot(immatriculation,aes(x = marque)) +
 # Mettre à jour la colonne 'marketing.situation familiale'
 marketing$situation_familiale <- tolower(marketing$situation_familiale)
 marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="c�libataire", "celibataire",situation_familiale))
+marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="célibataire", "celibataire",situation_familiale))
 
 # Mettre à jour la colonne 'catalogue.longueur'
 catalogue$longueur <- with(catalogue, ifelse(longueur == 'tr�s longue', "tres longue", longueur))
+catalogue$longueur <- with(catalogue, ifelse(longueur == 'très longue', "tres longue", longueur))
+
+# Mettre à jour la colonne 'catalogue.marque'
+catalogue$marque <- with(catalogue, ifelse(marque == 'Hyunda�', "Hyundai", marque))
 
 # Mettre à jour la colonne 'immatriculation_ext.longueur'
 immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr�s longue', "tres longue", longueur))
+immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'très longue', "tres longue", longueur))
 
 # concernant l'age nous avons des anomalies avec des ages negatifs. Pour corriger cette anomalie nous allons remplacer les ages negatifs par la mediane : 41
 clients$age <- with(clients, ifelse(age < 0, 41 ,age))
@@ -144,13 +150,22 @@ clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("c�li
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("mari�(e)"), "marie(e)", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorc�e"), "divorce(e)", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("seule", "seul"), "seule", clients$situation_familiale)
+
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("célibataire"), "celibataire", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("marié(e)"), "marie(e)", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorcée"), "divorce(e)", clients$situation_familiale)
+
+
 clients$sexe[clients$sexe == ""] <- "ND"
 clients$sexe[clients$sexe == "FMININ"] <- "F"
 clients$situation_familiale[clients$situation_familiale=="?"] <-"ND"
 clients$situation_familiale[clients$situation_familiale==" "] <-"ND"
 clients$situation_familiale[clients$situation_familiale=="n/d"] <-"ND"
 clients$nbr_enfant[clients$nbr_enfant == -1] <- 0
+clients$voiture_2[clients$voiture_2==" "] <- "ND"
+clients$voiture_2[clients$voiture_2=="?"] <- "ND"
 
 print(summary(catalogue))
 print(skim(catalogue))
 print(skim(clients))
+
