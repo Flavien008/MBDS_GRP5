@@ -69,6 +69,24 @@ STORED AS TEXTFILE
 LOCATION '/user/vagrant/data'
 TBLPROPERTIES ("skip.header.line.count" = "1");
 
+
+CREATE TABLE cleaned_catalogue_ext AS
+SELECT 
+    id,
+    CASE 
+        WHEN marque LIKE '%Hyunda%' THEN 'Hyundai' 
+        ELSE marque 
+    END AS marque,
+    nom,
+    puissance,
+    longueur, 
+    nbplaces,
+    nbportes,
+    couleur,
+    occasion, 
+    prix
+FROM catalogue_ext;
+
 CREATE EXTERNAL TABLE IF NOT EXISTS co2_ext (
     marque STRING,
     malusBonus FLOAT,
@@ -91,15 +109,15 @@ WITH avg_co2 AS (
         co2_ext
 )
 
-SELECT 
-    catalogue_ext.*,
+SELECT
+    cleaned_catalogue_ext.*,
     COALESCE(co2_ext.malusBonus, avg_co2.avgMalusBonus) AS malusBonus,
     COALESCE(co2_ext.rejetsCO2, avg_co2.avgRejetsCO2) AS rejetsCO2,
     COALESCE(co2_ext.coutEnergie, avg_co2.avgCoutEnergie) AS coutEnergie
-FROM 
-    catalogue_ext
-LEFT JOIN 
+FROM
+    cleaned_catalogue_ext
+LEFT JOIN
     co2_ext
-ON 
-    LOWER(catalogue_ext.Marque) = LOWER(co2_ext.marque),
+ON
+    LOWER(cleaned_catalogue_ext.Marque) = LOWER(co2_ext.marque),
 avg_co2;
