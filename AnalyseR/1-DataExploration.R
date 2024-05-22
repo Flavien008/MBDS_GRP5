@@ -112,9 +112,6 @@ marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="c
 catalogue$longueur <- with(catalogue, ifelse(longueur == 'tr�s longue', "tres longue", longueur))
 catalogue$longueur <- with(catalogue, ifelse(longueur == 'très longue', "tres longue", longueur))
 
-# Mettre à jour la colonne 'catalogue.marque'
-catalogue$marque <- with(catalogue, ifelse(marque == 'Hyunda�', "Hyundai", marque))
-
 # Mettre à jour la colonne 'immatriculation_ext.longueur'
 immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'tr�s longue', "tres longue", longueur))
 immatriculation$longueur <- with(immatriculation, ifelse(longueur == 'très longue', "tres longue", longueur))
@@ -153,7 +150,7 @@ clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("seule"
 
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("célibataire"), "celibataire", clients$situation_familiale)
 clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("marié(e)"), "marie(e)", clients$situation_familiale)
-clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorcée"), "divorce(e)", clients$situation_familiale)
+clients$situation_familiale <- ifelse(clients$situation_familiale %in% c("divorcé(e)"), "divorce(e)", clients$situation_familiale)
 
 
 clients$sexe[clients$sexe == ""] <- "ND"
