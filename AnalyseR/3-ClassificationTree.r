@@ -39,19 +39,19 @@ library(tree)
 
 # Sélection d'attribut par Coefficient de Gini et effectif minimal d'un nœud de 10
 tree_rp1 <- rpart(categorie~., clientsImmat_EA, parms = list(split = "gini"), control = rpart.control(minbucket = 10))
-rpart.plot(tree_rp1)
+rpart.plot(tree_rp1, cex = 0.5)
 
 # Sélection d'attribut par Coefficient de Gini et effectif minimal d'un nœud de 5
 tree_rp2 <- rpart(categorie~., clientsImmat_EA, parms = list(split = "gini"), control = rpart.control(minbucket = 5))
-rpart.plot(tree_rp2, cex = 0.7)
+rpart.plot(tree_rp2, cex = 0.5)
 
 # Sélection d'attribut par Information Gain et effectif minimal d'un nœud de 10
 tree_rp3 <- rpart(categorie~., clientsImmat_EA, parms = list(split = "information"), control = rpart.control(minbucket = 10))
-rpart.plot(tree_rp3)
+rpart.plot(tree_rp3, cex = 0.5)
 
 # Sélection d'attribut par Information Gain et effectif minimal d'un nœud de 5
 tree_rp4 <- rpart(categorie~., clientsImmat_EA, parms = list(split = "information"), control = rpart.control(minbucket = 5))
-rpart.plot(tree_rp4, cex = 0.7)
+rpart.plot(tree_rp4, cex = 0.5)
 
 
 #----------------------------------------------------------------#
