@@ -243,9 +243,26 @@ STORED AS TEXTFILE
 LOCATION '/user/vagrant/output/clean_co2';
 ```
 
-- Script pour créer la table `catalogue_co2` afin d'intégrer les données de `co2_ext` avec celles de `catalogue_ext` :
+- Script pour créer la table `catalogue_co2` en intégrant les données de `co2_ext` avec celles de `catalogue_ext`. Tout d'abord, nettoyer certaines données de `catalogue_ext` pour obtenir `cleaned_catalogue_ext`, puis effectuer la jointure avec la table `co2_ext` :
 
 ```bash
+CREATE TABLE cleaned_catalogue_ext AS
+SELECT
+    id,
+    CASE
+        WHEN marque LIKE '%Hyunda%' THEN 'Hyundai'
+        ELSE marque
+    END AS marque,
+    nom,
+    puissance,
+    longueur,
+    nbplaces,
+    nbportes,
+    couleur,
+    occasion,
+    prix
+FROM catalogue_ext;
+
 CREATE TABLE IF NOT EXISTS catalogue_co2
 AS
 WITH avg_co2 AS (
@@ -258,19 +275,18 @@ WITH avg_co2 AS (
 )
 
 SELECT
-    catalogue_ext.*,
+    cleaned_catalogue_ext.*,
     COALESCE(co2_ext.malusBonus, avg_co2.avgMalusBonus) AS malusBonus,
     COALESCE(co2_ext.rejetsCO2, avg_co2.avgRejetsCO2) AS rejetsCO2,
     COALESCE(co2_ext.coutEnergie, avg_co2.avgCoutEnergie) AS coutEnergie
 FROM
-    catalogue_ext
+    cleaned_catalogue_ext
 LEFT JOIN
     co2_ext
 ON
-    LOWER(catalogue_ext.Marque) = LOWER(co2_ext.marque),
+    LOWER(cleaned_catalogue_ext.Marque) = LOWER(co2_ext.marque),
 avg_co2;
 ```
-
 
 - script de création de la table Immatriculation
 
