@@ -215,7 +215,7 @@ hadoop fs -put $DATAHOME/CO2.csv /user/vagrant/input/CO2.csv
 
 ```bash
 hadoop fs -mkdir -p /user/vagrant/data
-hadoop fs -put $DATAHOME/immatriculations.csv.csv /user/vagrant/data/immatriculations.csv
+hadoop fs -put $DATAHOME/immatriculations.csv /user/vagrant/data/immatriculations.csv
 ```
 
 - Lancez le script Spark pour nettoyer et transformer les données (Map Reduce) :
