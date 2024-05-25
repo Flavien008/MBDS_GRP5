@@ -38,16 +38,20 @@ varImpPlot(rf_model4)
 # Test et taux de succès pour le 1er paramétrage pour Random Forest
 test_rf1 <- predict(rf_model1, clientsImmat_ET)
 print(taux_rf1 <- sum(clientsImmat_ET$categorie == test_rf1) / nrow(clientsImmat_ET))
+#----------> 0,682718979
 
 # Test et taux de succès pour le 2nd paramétrage pour Random Forest
 test_rf2 <- predict(rf_model2, clientsImmat_ET)
 print(taux_rf2 <- sum(clientsImmat_ET$categorie == test_rf2) / nrow(clientsImmat_ET))
+#----------> 0,682952912
 
 # Test et taux de succès pour le 3ème paramétrage pour Random Forest
 test_rf3 <- predict(rf_model3, clientsImmat_ET)
 print(taux_rf3 <- sum(clientsImmat_ET$categorie == test_rf3) / nrow(clientsImmat_ET))
+#----------> 0,67329479
 
 # Test et taux de succès pour le 4ème paramétrage pour Random Forest
 test_rf4 <- predict(rf_model4, clientsImmat_ET)
 print(taux_rf4 <- sum(clientsImmat_ET$categorie == test_rf4) / nrow(clientsImmat_ET))
+#----------> 0,672592989
 
