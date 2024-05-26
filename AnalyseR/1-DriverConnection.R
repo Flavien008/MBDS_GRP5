@@ -4,7 +4,7 @@ library(DBI)
 library(rJava)
 library(RJDBC)
 hiveDB <- dbConnect(odbc::odbc(), "Hive Driver")
-dbGetQuery(hiveDB,"select * from catalogue_ext")
+dbGetQuery(hiveDB,"select * from marketing_ext")
 
 
 
