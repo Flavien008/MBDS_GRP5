@@ -14,4 +14,4 @@ marketing_predictions <- predict(tree_C54, marketing)
 marketing$predicted_categorie <- marketing_predictions
 
 # Affichage des résultats
-print(head(marketing))
+print(marketing)
