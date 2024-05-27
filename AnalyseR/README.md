@@ -58,6 +58,12 @@ Pour installer les packages nécessaires pour ce projet, veuillez vous référer
    - **Description**: Ce script utilise le modèle de classification ayant obtenu le meilleur taux de succès pour prédire la catégorie de véhicules pour les données marketing.
    - **Exécution**: Exécutez ce script en dernier pour appliquer le modèle de prédiction aux données marketing et obtenir les prédictions finales.
 
+
+10. **10-AddAnalyseMarketingHive.R**
+   - **Description**: Ce script remet les résultats de l'analyse marketing dans Hive en créant une table `marketing_result` et en insérant les prédictions.
+   - **Exécution**: **Note Importante** : Vous devez être connecté à la base de données Hive pour exécuter ce script. Ce script crée une nouvelle table et insère les résultats des prédictions.
+
+
 ## Informations Supplémentaires
 
 - **Comparaison des Modèles**: Nous avons utilisé cinq types de classification pour identifier celui qui offre la meilleure précision. Les modèles testés incluent l'arbre de décision, la forêt aléatoire, les réseaux de neurones, Naive Bayes et k-NN. Le modèle C5.0 avec le paramétrage `tree_C54` a donné le taux de succès le plus élevé et a été utilisé pour les prédictions finales.

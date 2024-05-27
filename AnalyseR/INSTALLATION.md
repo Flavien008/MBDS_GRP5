@@ -1,57 +1,62 @@
-## Installation du Driver Hive pour R
+# Installation du Driver Hive pour R
 
 ### Windows
 
-1. Téléchargez le Driver ODBC Hive pour Windows depuis ce [lien](https://www.cloudera.com/downloads/connectors/hive/odbc/2-6-1.html).
+1. **Téléchargement du Driver ODBC Hive :**
+   - Téléchargez le Driver ODBC Hive pour Windows depuis ce [lien](https://www.cloudera.com/downloads/connectors/hive/odbc/2-6-1.html).
 
-![image](images/1-InstallationOBDCDriver.png)
+   - Installez le.
 
-2. Une fois le téléchargement terminé, allez dans [Panneau de configuration -> Système et sécurité -> Outils windows] de votre ordinateur et lancez "ODBC Data Source Administrator (XX-BITS)" (32 ou 64 bits selon votre ordinateur) :
+   ![image](images/1-InstallationOBDCDriver.png)
 
-![image](images/2-Outils%20windows.png)
+2. **Accéder aux Outils d'administration Windows :**
+   - Une fois le téléchargement terminé, allez dans [Panneau de configuration -> Système et sécurité -> Outils Windows] de votre ordinateur et lancez "ODBC Data Source Administrator (XX-BITS)" (32 ou 64 bits selon votre ordinateur).
 
-3. Choisisez Hive Driver puis cliquez sur le bouton "Ajouter" (ADD) :
+   ![Outils Windows](images/2-Outils%20windows.png)
 
-![image](images/3-Admin%20Source%20Données.png)
+3. **Ajouter un nouveau Data Source :**
+   - Choisissez "Hive Driver" puis cliquez sur le bouton "Ajouter" (ADD).
 
-Une fenêtre s'affichera :
+   ![Ajouter un Data Source](images/3-Admin%20Source%20Données.png)
 
-4. Sous l'onglet "USER DSN", sélectionnez le driver Cloudera que vous venez d'installer :
+   Une fenêtre s'affichera.
 
-![image](images/4-Ajout%20Cloudera.png)
+4. **Sélection du Driver Cloudera :**
+   - Sous l'onglet "USER DSN", sélectionnez le driver Cloudera que vous venez d'installer.
 
-5. Remplissez avec les informations suivantes :
+   ![Sélection du Driver Cloudera](images/4-Ajout%20Cloudera.png)
 
-![image](images/5-Coudera%20Form%20and%20avanced%20options.png)
+5. **Configuration du Driver Cloudera :**
+   - Remplissez le formulaire avec les informations nécessaires puis cochez les cases indiqués dans "Advanced option".
 
-6. Faites la même chose dans l'onglet "SYSTEM DSN" :
+   ![Configuration du Driver Cloudera](images/5-Coudera%20Form%20and%20avanced%20options.png)
 
-![image](images/6-SDN%20OBDC.png)
+6. **Répéter l'opération pour SYSTEM DSN :**
+   - Faites la même chose dans l'onglet "SYSTEM DSN".
+
+   ![SYSTEM DSN](images/6-SDN%20OBDC.png)
 
 ### R
 
-1. Exécutez les lignes de commande suivantes (dans le fichier `1-DriverConnection.R`) :
+1. **Installation et Chargement des Packages R :**
+   - Exécutez les lignes de commande suivantes (dans le fichier `1-DriverConnection.R`) :
 
-```r
-install.packages(c("RJDBC", "DBI", "rJava", "odbc"))
-library(odbc)
-library(DBI)
-library(rJava)
-library(RJDBC)
+   ```r
+   install.packages(c("RJDBC", "DBI", "rJava", "odbc"))
+   library(odbc)
+   library(DBI)
+   library(rJava)
+   library(RJDBC)
 
-# Connexion à Hive
-hiveDB <- dbConnect(odbc::odbc(), "Hive Driver")
-```
+   # Connexion à Hive
+   hiveDB <- dbConnect(odbc::odbc(), "Hive Driver")
+    ```
 
-Apres cette étape, si vous utilisez RStudio vous devez voir la connexion du HIVE comme suit : 
+   - Pour tester que tout marche bien on execute une simple requete SQL :
 
-![image](images/7-R%20connexion.png)
+    ```r
+    dbGetQuery(hiveDB,"select * from marketing_ext")
+    ```
 
-Pour tester que tout marche bien on execute une simple requete SQL :
-
-```r
-dbGetQuery(hiveDB,"select * from marketing_ext")
-```
-
-![image]()
+    ![image]()
 
