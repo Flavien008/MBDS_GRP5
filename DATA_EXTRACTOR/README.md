@@ -198,6 +198,12 @@ TBLPROPERTIES('mongo.uri'='mongodb://localhost:27017/TPA.Catalogue');
 
 Pour notre projet, nous avons décidé de stocker le fichier CO2.csv et immatriculation dans HDFS. Pour l'importer, veuillez suivre les étapes ci-dessous :
 
+- Si HDFS n'est pas déjà lancé, démarrez-le :
+
+```bash
+start-dfs.sh
+```
+
 - Définissez le chemin du répertoire HDFS :
 
 ```bash
