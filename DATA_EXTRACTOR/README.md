@@ -249,7 +249,8 @@ STORED AS TEXTFILE
 LOCATION '/user/vagrant/output/clean_co2';
 ```
 
-- Script pour créer la table `catalogue_co2` en intégrant les données de `co2_ext` avec celles de `catalogue_ext`. Tout d'abord, nettoyer certaines données de `catalogue_ext` pour obtenir `cleaned_catalogue_ext`, puis effectuer la jointure avec la table `co2_ext` :
+- Script pour créer la table `catalogue_co2` en intégrant les données de `co2_ext` avec celles de catalogue_ext. Tout d'abord, nettoyer certaines données de `catalogue_ext` afin d'obtenir `cleaned_catalogue_ext`, puis effectuer la jointure entre `cleaned_catalogue_ext` et `co2_ext`.
+- Lors de la jointure, pour les marques de voitures qui ne sont pas présentes dans `co2_ext`, on insert la moyenne des colonnes `malusBonus`, `rejetsCO2` et `coutEnergie` de toutes les marques de véhicules qui sont présentes des deux côtés (`cleaned_catalogue_ext` et `co2_ext`).
 
 ```bash
 CREATE TABLE cleaned_catalogue_ext AS
@@ -268,30 +269,35 @@ SELECT
     occasion,
     prix
 FROM catalogue_ext;
+```
 
+```bash
 CREATE TABLE IF NOT EXISTS catalogue_co2
 AS
-WITH avg_co2 AS (
+WITH marques_communs AS (
+    SELECT DISTINCT co2.marque, co2.malusBonus, co2.rejetsCO2, co2.coutEnergie
+    FROM co2_ext co2
+    JOIN cleaned_catalogue_ext cat
+    ON LOWER(co2.marque) = LOWER(cat.Marque)
+),
+moyennes_co2 AS (
     SELECT
-        AVG(malusBonus) AS avgMalusBonus,
-        AVG(rejetsCO2) AS avgRejetsCO2,
-        AVG(coutEnergie) AS avgCoutEnergie
-    FROM
-        co2_ext
+        AVG(co2.malusBonus) AS avg_malusBonus,
+        AVG(co2.rejetsCO2) AS avg_rejetsCO2,
+        AVG(co2.coutEnergie) AS avg_coutEnergie
+    FROM co2_ext co2
+    JOIN marques_communs communs
+    ON LOWER(co2.marque) = LOWER(communs.marque)
 )
-
 SELECT
-    cleaned_catalogue_ext.*,
-    COALESCE(co2_ext.malusBonus, avg_co2.avgMalusBonus) AS malusBonus,
-    COALESCE(co2_ext.rejetsCO2, avg_co2.avgRejetsCO2) AS rejetsCO2,
-    COALESCE(co2_ext.coutEnergie, avg_co2.avgCoutEnergie) AS coutEnergie
-FROM
-    cleaned_catalogue_ext
-LEFT JOIN
-    co2_ext
-ON
-    LOWER(cleaned_catalogue_ext.Marque) = LOWER(co2_ext.marque),
-avg_co2;
+    cat.*,
+    COALESCE(co2.malusBonus, moyennes_co2.avg_malusBonus) AS malusBonus,
+    COALESCE(co2.rejetsCO2, moyennes_co2.avg_rejetsCO2) AS rejetsCO2,
+    COALESCE(co2.coutEnergie, moyennes_co2.avg_coutEnergie) AS coutEnergie
+FROM cleaned_catalogue_ext cat
+LEFT JOIN co2_ext co2
+ON LOWER(co2.marque) = LOWER(cat.Marque)
+CROSS JOIN moyennes_co2;
 ```
 
 - script de création de la table Immatriculation
