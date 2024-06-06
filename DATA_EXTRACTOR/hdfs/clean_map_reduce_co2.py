@@ -31,26 +31,15 @@ def corriger_marque(ligne):
 # Corriger les marques
 marques_corrigees_rdd = lignes_propres_rdd.map(corriger_marque).filter(lambda x: x[0] != '')
 
-# Fonction pour convertir une chaîne en entier ou renvoyer '-' s'il y a un problème
+# Fonction pour convertir une chaîne en entier ou renvoyer 0 s'il y a une valeur manquante
 def convertir_en_entier(value):
-    return int(value) if value != '-' else '-'
+    return int(value) if value != '-' else 0
 
 # Convertir les valeurs appropriées en entiers
 entiers_rdd = marques_corrigees_rdd.map(lambda x: (x[1], convertir_en_entier(x[2]), convertir_en_entier(x[3]), int(x[4])))
 
-# Calculer la moyenne pour les colonnes contenant des valeurs manquantes
-valeurs_valides_rdd = entiers_rdd.map(lambda x: x[1]).filter(lambda x: x != '-')
-moyenne_valeur = valeurs_valides_rdd.mean()
-
-# Fonction pour remplacer les valeurs manquantes par une moyenne donnée
-def remplacer_par_moyenne(value, moyenne):
-    return moyenne if value == '-' else value
-
-# Remplacer les valeurs manquantes par la moyenne calculée
-valeurs_corrigees_rdd = entiers_rdd.map(lambda x: (x[0], remplacer_par_moyenne(x[1], moyenne_valeur), x[2], x[3]))
-
 # Réduire par clé (marque) pour obtenir les sommes des colonnes
-aggregated_rdd = valeurs_corrigees_rdd.map(lambda x: (x[0], (x[1], x[2], x[3], 1)))
+aggregated_rdd = entiers_rdd.map(lambda x: (x[0], (x[1], x[2], x[3], 1)))
 reduced_rdd = aggregated_rdd.reduceByKey(lambda x, y: (x[0] + y[0], x[1] + y[1], x[2] + y[2], x[3] + y[3]))
 
 # Calculer les moyennes finales pour chaque marque
