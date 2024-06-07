@@ -1,9 +1,10 @@
+# Installation et chargement des bibliothèques nécessaires
 install.packages("skimr")
 library(skimr)
 
 
 #------------------------#
-# CHARGEMENT DES DONNeES #
+# CHARGEMENT DES DONNEES #
 #------------------------#
 
 # Chargement des donnees
@@ -88,21 +89,12 @@ names(clients)
 summary(clients)
 
 
-#Visualisation des donnees
-install.packages("ggplot2")
-library("ggplot2")
-# Histogramme des âges des clients
-ggplot(clients, aes(x = age)) +
-  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
-  labs(title = "Histogramme des âges des clients", x = "Âge", y = "Frequence")
-
-# Barplot des marques de voitures
-ggplot(immatriculation,aes(x = marque)) +
-  geom_bar(fill = "lightblue", color = "black") +
-  labs(title = "Nombre de voitures par marque", x = "Marque", y = "Nombre de voitures") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+#-------------------------------------#
+# NETOYAGE ET PREPARATION DES DONNEES #
+#-------------------------------------#
 
 
+# Nettoyage et Préparation des Données
 # Mettre à jour la colonne 'marketing.situation familiale'
 marketing$situation_familiale <- tolower(marketing$situation_familiale)
 marketing$situation_familiale <- with(marketing, ifelse(situation_familiale =="c�libataire", "celibataire",situation_familiale))
@@ -165,4 +157,59 @@ clients$voiture_2[clients$voiture_2=="?"] <- "ND"
 print(summary(catalogue))
 print(skim(catalogue))
 print(skim(clients))
+
+
+#-------------------------------------#
+# VISUALISATION DES DONNEES #
+#-------------------------------------#
+
+#Visualisation des donnees
+install.packages("ggplot2")
+library("ggplot2")
+
+# Histogramme des âges des clients
+ggplot(clients, aes(x = age)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  labs(title = "Histogramme des âges des clients", x = "Âge", y = "Frequence")
+
+# Barplot des marques de voitures
+ggplot(immatriculation,aes(x = marque)) +
+  geom_bar(fill = "lightblue", color = "black") +
+  labs(title = "Nombre de voitures par marque", x = "Marque", y = "Nombre de voitures") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Puissance en fonction de la longueur
+ggplot(catalogue, aes(x = longueur, y = puissance)) +
+  geom_boxplot() +
+  labs(title = "Puissance en fonction de la longueur", x = "Longueur", y = "Puissance")
+
+#Relation entre puissance et prix
+ggplot(catalogue, aes(x = puissance, y = prix, color = longueur)) +
+  geom_point(alpha = 0.6) +
+  labs(title = "Relation entre puissance et prix", x = "Puissance", y = "Prix")
+
+# Diagramme de Corrélation: Heatmap des corrélations entre les variables numériques
+library(reshape2)
+
+# Extraction des variables numériques
+numeric_data <- catalogue[, sapply(catalogue, is.numeric)]
+
+# Calcule de la matrice de corrélation
+cor_matrix <- cor(numeric_data, use = "complete.obs")
+
+# Transformation de la matrice en format long
+melt_cor_matrix <- melt(cor_matrix)
+
+# Création du heatmap de corrélation
+ggplot(melt_cor_matrix, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 0, limit = c(-1, 1), space = "Lab", name="Correlation") +
+  labs(title = "Heatmap des corrélations entre les variables numériques") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+
 

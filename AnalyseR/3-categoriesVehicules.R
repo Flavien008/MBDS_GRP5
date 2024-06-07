@@ -9,22 +9,22 @@ install.packages("cluster")
 library(cluster)
 
 definir_categorie_cluster <- function(data) {
-  # Préparer les données
-  data_prep <- data[, c("puissance", "longueur", "nbplaces", "nbportes", "malusbonus", "rejetsco2", "coutenergie","prix")]
+  # Préparer les données en éliminant 'malusbonus'
+  data_prep <- data[, c("puissance", "longueur", "nbplaces", "nbportes", "rejetsco2", "coutenergie", "prix")]
   
-  # Convertir longueur en facteur si ce n'est pas déjà fait
+  # Convertir 'longueur' en facteur si ce n'est pas déjà fait
   if (!is.factor(data_prep$longueur)) {
     data_prep$longueur <- factor(data_prep$longueur)
   }
   
   # Normaliser les variables numériques
-  data_norm <- scale(data_prep[, c("puissance", "nbplaces", "nbportes", "malusbonus", "rejetsco2", "coutenergie","prix")])
+  data_norm <- scale(data_prep[, c("puissance", "nbplaces", "nbportes", "rejetsco2", "coutenergie", "prix")])
   
   # Clustering hiérarchique
   hc <- hclust(dist(data_norm), method = "ward.D")
   
-  # Découper les clusters en 5 catégories
-  nb_cluster <- 7
+  # Découper les clusters en un nombre optimal = 9
+  nb_cluster <- 9
   coupes <- cutree(hc, k = nb_cluster)
   
   # Analyser les clusters pour déterminer les caractéristiques dominantes
@@ -34,7 +34,6 @@ definir_categorie_cluster <- function(data) {
       puissance_moyenne = tapply(data$puissance, clusters, mean),
       nbplaces_moyenne = tapply(data$nbplaces, clusters, mean),
       nbportes_moyenne = tapply(data$nbportes, clusters, mean),
-      malusbonus_moyen = tapply(data$malusbonus, clusters, mean),
       rejetsco2_moyen = tapply(data$rejetsco2, clusters, mean),
       coutenergie_moyen = tapply(data$coutenergie, clusters, mean),
       prix_moyen = tapply(data$prix, clusters, mean)
@@ -45,22 +44,19 @@ definir_categorie_cluster <- function(data) {
   cluster_info <- cluster_analysis(data_prep, coupes)
   print(cluster_info) # Afficher les informations pour vérification
   
-  sorted_puissance <- sort(cluster_info$puissance_moyenne, decreasing = TRUE)
-  second_max_puissance <- sorted_puissance[2]
-  
   # Mapper les clusters aux catégories en fonction des analyses
   mapping_clusters_categories <- function(cluster) {
     if (cluster_info$puissance_moyenne[cluster] == max(cluster_info$puissance_moyenne)) {
       return("sportive")
-    }else if (cluster_info$prix_moyen[cluster] == max(cluster_info$prix_moyen )) {
+    } else if (cluster_info$prix_moyen[cluster] == max(cluster_info$prix_moyen)) {
       return("luxe")
     } else if (cluster_info$nbplaces_moyenne[cluster] == max(cluster_info$nbplaces_moyenne)) {
       return("familiale")
     } else if (cluster_info$puissance_moyenne[cluster] == min(cluster_info$puissance_moyenne)) {
       return("citadine")
-    }else if (cluster_info$rejetsco2_moyen[cluster] == min(cluster_info$rejetsco2_moyen)) {
+    } else if (cluster_info$rejetsco2_moyen[cluster] == min(cluster_info$rejetsco2_moyen)) {
       return("ecologique")
-    }else if (cluster_info$nbportes_moyenne[cluster] > 3) {
+    } else if (cluster_info$nbportes_moyenne[cluster] > 3) {
       return("confort")
     }
     
@@ -99,3 +95,4 @@ clientsImmat <- unique(clientsImmat)
 print(table(catalogue$categorie))
 print(table(immatrCatalog$categorie))
 print(table(clientsImmat$categorie))
+
