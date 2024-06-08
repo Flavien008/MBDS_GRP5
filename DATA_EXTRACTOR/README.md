@@ -1,6 +1,6 @@
 # Extraction et Traitement des Données
 
-Lors du clonage de ce projet, veuillez copier le fichier **Immatriculations.csv** disponible à l'adresse suivante : https://drive.google.com/file/d/1dZaWPH4xbJGQBjmsj6Z-MRo1A8oWwuye/view?usp=sharing dans le dossier du projet, à l'emplacement `/DATA_EXTRACTOR/dataSources`. Cette étape est nécessaire car le fichier dépasse 100 Mo, ce qui empêche de faire un commit sur GitHub en raison de la limite de taille des fichiers.
+Lors du clonage de ce projet, veuillez copier le fichier **Immatriculations.csv** disponible à l'adresse suivante : https://drive.google.com/file/d/1dZaWPH4xbJGQBjmsj6Z-MRo1A8oWwuye/view?usp=sharing dans le dossier du projet, à l'emplacement `./DATA_EXTRACTOR/dataSources`. Cette étape est nécessaire car le fichier dépasse 100 Mo, ce qui empêche de faire un commit sur GitHub en raison de la limite de taille des fichiers.
 
 ## Source Oracle NoSQL
 
