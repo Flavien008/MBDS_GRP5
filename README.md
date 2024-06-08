@@ -39,6 +39,10 @@ Toutes les données sont accessibles via Hive à l'aide de tables externes.
 1. **[Extraction des Données](https://github.com/Flavien008/MBDS_GRP5/tree/main/DATA_EXTRACTOR)** : Processus d'importation et de mise en forme des données.
 2. **[Analyse avec R](https://github.com/Flavien008/MBDS_GRP5/tree/main/AnalyseR)** : Analyse approfondie des données.
 
+## Rapports
+
+- **[Rapport Hadoop Map Reduce]("https://github.com/Flavien008/MBDS_GRP5/blob/main/Rapport-HadoopMapReduce-Groupe5.pdf")** : Rapport da la démarche pour l'adaptation et l'intégration du fichier CO2.csv dans la table catalogue.
+
 ## Conclusion
 
 Grâce à cette architecture et à notre approche méthodique, nous visons à offrir une solution efficace pour aider le concessionnaire à cibler les véhicules susceptibles d'intéresser ses clients et à fournir des informations détaillées aux clients sélectionnés par le service marketing.
