@@ -3,6 +3,7 @@
 ## Objectif du Projet
 
 Nous avons été sollicités par un concessionnaire automobile pour l'aider à mieux cibler les véhicules qui pourraient intéresser ses clients. Pour cela, nous avons à notre disposition les éléments suivants :
+
 - Un catalogue de véhicules
 - Les fichiers clients concernant les achats de l'année en cours
 - Un accès aux informations sur les immatriculations effectuées cette année
@@ -10,12 +11,14 @@ Nous avons été sollicités par un concessionnaire automobile pour l'aider à m
 - Une interview d'un vendeur
 
 Notre solution doit permettre :
+
 - À un vendeur d'identifier rapidement le type de véhicule le plus susceptible d'intéresser un client se présentant à la concession
 - D'envoyer une documentation détaillée sur le véhicule le plus approprié aux clients sélectionnés par le service marketing
 
 ## Solution Proposée
 
 Pour réaliser ce projet, nous avons divisé le problème en trois parties distinctes :
+
 1. **Importation et Transformation des Données** - Cette étape est détaillée dans la section [Extraction des Données](https://github.com/Flavien008/MBDS_GRP5/tree/main/DATA_EXTRACTOR), où nous expliquons les différentes étapes d'importation et de transformation des données.
 2. **Analyse des Données** - L'analyse est effectuée avec R et documentée dans la section [Analyse avec R](https://github.com/Flavien008/MBDS_GRP5/tree/main/AnalyseR), où nous examinons en détail l'ensemble des données.
 
@@ -29,7 +32,7 @@ Notre projet repose sur une machine Vagrant configurée par notre professeur [Se
 
 Toutes les données sont accessibles via Hive à l'aide de tables externes.
 
-![Architecture Globale du Projet](https://github.com/Flavien008/MBDS_GRP5/blob/main/achitecture.jpg)
+![Architecture Globale du Projet](https://github.com/Flavien008/MBDS_GRP5/blob/main/architecture.jpg)
 
 ## Répertoires Principaux
 
