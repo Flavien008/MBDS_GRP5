@@ -62,25 +62,21 @@ rpart.plot(tree_rp4, cex = 0.5)
 test_rp1 <- predict(tree_rp1, clientsImmat_ET, type = "class")
 # Calcul du taux de succès : nombre de succès sur nombre total d'exemples de test
 print(taux_rp1 <- nrow(clientsImmat_ET[clientsImmat_ET$categorie == test_rp1, ]) / nrow(clientsImmat_ET))
-#----------> 0,681248538
 
 # Application de tree_rp2 à l'ensemble de test
 test_rp2 <- predict(tree_rp2, clientsImmat_ET, type = "class")
 # Calcul du taux de succès : nombre de succès sur nombre total d'exemples de test
 print(taux_rp2 <- nrow(clientsImmat_ET[clientsImmat_ET$categorie == test_rp2, ]) / nrow(clientsImmat_ET))
-#----------> 0,681248538
 
 # Application de tree_rp3 à l'ensemble de test
 test_rp3 <- predict(tree_rp3, clientsImmat_ET, type = "class")
 # Calcul du taux de succès : nombre de succès sur nombre total d'exemples de test
 print(taux_rp3 <- nrow(clientsImmat_ET[clientsImmat_ET$categorie == test_rp3, ]) / nrow(clientsImmat_ET))
-#----------> 0,681248538
 
 # Application de tree_rp4 à l'ensemble de test
 test_rp4 <- predict(tree_rp4, clientsImmat_ET, type = "class")
 # Calcul du taux de succès : nombre de succès sur nombre total d'exemples de test
 print(taux_rp4 <- nrow(clientsImmat_ET[clientsImmat_ET$categorie == test_rp4, ]) / nrow(clientsImmat_ET))
-#----------> 0,681248538
 
 
 #--------------------------------------------------------------------#
@@ -114,22 +110,18 @@ plot(tree_C54, type="simple")
 # Test et taux de succès pour le 1er paramétrage pour C5.0()
 test_C51 <- predict(tree_C51, clientsImmat_ET)
 print(taux_C51 <- sum(clientsImmat_ET$categorie == test_C51) / nrow(clientsImmat_ET))
-#----------> 0,682351369
 
 # Test et taux de succès pour le 2nd paramétrage pour C5.0()
 test_C52 <- predict(tree_C52, clientsImmat_ET)
 print(taux_C52 <- sum(clientsImmat_ET$categorie == test_C52) / nrow(clientsImmat_ET))
-#----------> 0,682418207
 
 # Test et taux de succès pour le 3ème paramétrage pour C5.0()
 test_C53 <- predict(tree_C53, clientsImmat_ET)
 print(taux_C53 <- sum(clientsImmat_ET$categorie == test_C53) / nrow(clientsImmat_ET))
-#----------> 0,684055743
 
 # Test et taux de succès pour le 4ème paramétrage pour C5.0()
 test_C54 <- predict(tree_C54, clientsImmat_ET)
 print(taux_C54 <- sum(clientsImmat_ET$categorie == test_C54) / nrow(clientsImmat_ET))
-#----------> 0,684256258
 
 
 #--------------------------------------------------------------------#
@@ -158,10 +150,8 @@ text(tree_tr2, pretty = 0)
 # Test et taux de succès pour le 1er paramétrage pour tree()
 test_tr1 <- predict(tree_tr1, clientsImmat_ET, type = "class")
 print(taux_tr1 <- sum(clientsImmat_ET$categorie == test_tr1) / nrow(clientsImmat_ET))
-#----------> 0,655549243
 
 # Test et taux de succès pour le 2nd paramétrage pour tree()
 test_tr2 <- predict(tree_tr2, clientsImmat_ET, type = "class")
 print(taux_tr2 <- sum(clientsImmat_ET$categorie == test_tr2) / nrow(clientsImmat_ET))
-#----------> 0,655549243
 

@@ -36,20 +36,16 @@ print(nn_model4)
 # Test et taux de succès pour le 1er paramétrage pour Neural Network
 test_nn1 <- predict(nn_model1, clientsImmat_ET, type = "class")
 print(taux_nn1 <- sum(clientsImmat_ET$categorie == test_nn1) / nrow(clientsImmat_ET))
-#----------> 0,560037429
 
 # Test et taux de succès pour le 2nd paramétrage pour Neural Network
 test_nn2 <- predict(nn_model2, clientsImmat_ET, type = "class")
 print(taux_nn2 <- sum(clientsImmat_ET$categorie == test_nn2) / nrow(clientsImmat_ET))
-#----------> 0,650502958
 
 # Test et taux de succès pour le 3ème paramétrage pour Neural Network
 test_nn3 <- predict(nn_model3, clientsImmat_ET, type = "class")
 print(taux_nn3 <- sum(clientsImmat_ET$categorie == test_nn3) / nrow(clientsImmat_ET))
-#----------> 0,631320389
 
 # Test et taux de succès pour le 4ème paramétrage pour Neural Network
 test_nn4 <- predict(nn_model4, clientsImmat_ET, type = "class")
 print(taux_nn4 <- sum(clientsImmat_ET$categorie == test_nn4) / nrow(clientsImmat_ET))
-#----------> 0,659258764
 

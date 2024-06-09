@@ -206,10 +206,3 @@ ggplot(melt_cor_matrix, aes(x = Var1, y = Var2, fill = value)) +
   scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 0, limit = c(-1, 1), space = "Lab", name="Correlation") +
   labs(title = "Heatmap des corrélations entre les variables numériques") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
-
-
-
-
-

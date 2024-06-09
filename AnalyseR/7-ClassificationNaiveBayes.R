@@ -28,11 +28,9 @@ summary(nb_model2)
 test_nb1 <- predict(nb_model1, clientsImmat_ET)
 taux_nb1 <- sum(clientsImmat_ET$categorie == test_nb1) / nrow(clientsImmat_ET)
 print(taux_nb1)
-#----------> 0,592186612
 
 # Test et taux de succès pour le 2nd paramétrage pour Naive Bayes
 test_nb2 <- predict(nb_model2, clientsImmat_ET)
 taux_nb2 <- sum(clientsImmat_ET$categorie == test_nb2) / nrow(clientsImmat_ET)
 print(taux_nb2)
-#----------> 0,592186612
 

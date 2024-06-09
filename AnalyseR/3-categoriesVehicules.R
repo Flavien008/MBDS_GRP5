@@ -24,7 +24,7 @@ definir_categorie_cluster <- function(data) {
   hc <- hclust(dist(data_norm), method = "ward.D")
   
   # Découper les clusters en un nombre optimal = 9
-  nb_cluster <- 6
+  nb_cluster <- 9
   coupes <- cutree(hc, k = nb_cluster)
   
   # Analyser les clusters pour déterminer les caractéristiques dominantes

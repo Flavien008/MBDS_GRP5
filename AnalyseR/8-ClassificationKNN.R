@@ -36,20 +36,16 @@ summary(knn_model4)
 # Test et taux de succès pour le 1er paramétrage pour k-NN
 predictions_knn1 <- fitted(knn_model1)
 print(taux_knn1 <- sum(clientsImmat_ET$categorie == predictions_knn1) / nrow(clientsImmat_ET))
-#----------> 0,622230391
 
 # Test et taux de succès pour le 2nd paramétrage pour k-NN
 predictions_knn2 <- fitted(knn_model2)
 print(taux_knn2 <- sum(clientsImmat_ET$categorie == predictions_knn2) / nrow(clientsImmat_ET))
-#----------> 0,644554356
 
 # Test et taux de succès pour le 3ème paramétrage pour k-NN
 predictions_knn3 <- fitted(knn_model3)
 print(taux_knn3 <- sum(clientsImmat_ET$categorie == predictions_knn3) / nrow(clientsImmat_ET))
-#----------> 0,623099288
 
 # Test et taux de succès pour le 4ème paramétrage pour k-NN
 predictions_knn4 <- fitted(knn_model4)
 print(taux_knn4 <- sum(clientsImmat_ET$categorie == predictions_knn4) / nrow(clientsImmat_ET))
-#----------> 0,643885974
 
