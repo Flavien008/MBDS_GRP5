@@ -39,10 +39,10 @@ Toutes les données sont accessibles via Hive à l'aide de tables externes.
 1. **[Extraction des Données](https://github.com/Flavien008/MBDS_GRP5/tree/main/DATA_EXTRACTOR)** : Processus d'importation et de mise en forme des données.
 2. **[Analyse avec R](https://github.com/Flavien008/MBDS_GRP5/tree/main/AnalyseR)** : Analyse approfondie des données.
 
-## Rapports
+## Documents
 
-- **[Rapport Hadoop Map Reduce](https://github.com/Flavien008/MBDS_GRP5/blob/main/Rapport-HadoopMapReduce-Groupe5.pdf)** : Rapport de la démarche pour l'adaptation et l'intégration du fichier CO2.csv dans la table catalogue.
-- **[Rapport Analyse R](https://github.com/Flavien008/MBDS_GRP5/blob/main/Rapport-AnalyseR-Groupe5.pdf)** : Rapport de l'analyse dans R.
+- **[Hadoop Map Reduce](https://github.com/Flavien008/MBDS_GRP5/blob/main/HadoopMapReduce-Groupe5.pdf)** : Rapport de la démarche pour l'adaptation et l'intégration du fichier CO2.csv dans la table catalogue.
+- **[Analyse R](https://github.com/Flavien008/MBDS_GRP5/blob/main/AnalyseR-Groupe5.pdf)** : Rapport de l'analyse dans R.
 
 ## Conclusion
 
